@@ -1230,8 +1230,25 @@
           <img src="ousl logo 2.png" alt="OUSL Logo" style="width: 100%; height: auto;">
         </div>
         <div class="brand-info" style="text-align: center;">
-          <h1 style="font-family: var(--font-display); font-size: 15px; font-weight: 800; color: var(--text-main); letter-spacing: 0.3px; line-height: 1.2;">CE GPA Calculator</h1>
-          <span style="font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--color-primary);">RC'25 OUSL Portal</span>
+          <h1 id="brand-title" style="font-family: var(--font-display); font-size: 15px; font-weight: 800; color: var(--text-main); letter-spacing: 0.3px; line-height: 1.2;">OUSL GPA Calculator</h1>
+          <span id="brand-subtitle" style="font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--color-primary);">RC'25 Portal & Auditor</span>
+        </div>
+      </div>
+
+      <!-- Programme & Specialisation Selection -->
+      <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); padding: 12px; border-radius: 12px; display: flex; flex-direction: column; gap: 10px; margin-bottom: 8px;">
+        <div style="display: flex; flex-direction: column; gap: 4px;">
+          <label style="font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Programme</label>
+          <select id="select-programme" onchange="changeProgramme(this.value)" style="width: 100%; height: 34px; border-radius: 6px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); color: var(--text-main); font-size: 12px; padding: 0 6px; outline: none; font-weight: 600;">
+            <option value="BScHonsEng">BSc Hons in Engineering</option>
+            <option value="BISHons">Bachelor of Industrial Studies</option>
+          </select>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 4px;">
+          <label style="font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Specialisation</label>
+          <select id="select-specialisation" onchange="changeSpecialisation(this.value)" style="width: 100%; height: 34px; border-radius: 6px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); color: var(--text-main); font-size: 12px; padding: 0 6px; outline: none; font-weight: 600;">
+            <!-- Dynamically populated -->
+          </select>
         </div>
       </div>
 
@@ -1660,88 +1677,6393 @@
   </div>
 
   <footer>
-    <p>RC'25 Computer Engineering GPA Calculator & Graduation Auditor © 2026. Made for the Open University of Sri Lanka.</p>
+    <p>RC'25 OUSL GPA Calculator & Graduation Auditor © 2026. Built for the Faculty of Engineering Technology.</p>
   </footer>
 
   <script>
     // Core Course Data (Computer Engineering RC'25)
-    const COURSES_DATA = [
-      // LEVEL 3
-      { code: 'AGM3203', title: 'Communication Skills', level: 3, semester: 1, credits: 2, category: 'M', type: 'Compulsory' },
-      { code: 'CVB3310', title: 'Mechanics and Materials', level: 3, semester: 1, credits: 3, category: 'B', type: 'Compulsory' },
-      { code: 'DMB3301', title: 'Thermo-Fluids', level: 3, semester: 1, credits: 3, category: 'B', type: 'Compulsory' },
-      { code: 'DMS3203', title: 'Workshop Practice', level: 3, semester: 1, credits: 2, category: 'S', type: 'Compulsory' },
-      { code: 'DMS3205', title: 'Engineering Graphics', level: 3, semester: 1, credits: 2, category: 'S', type: 'Compulsory' },
-      { code: 'EEB3210', title: 'Theory of Electricity', level: 3, semester: 1, credits: 2, category: 'B', type: 'Compulsory' },
-      { code: 'EEK3217', title: 'Programming Fundamentals', level: 3, semester: 1, credits: 2, category: 'K', type: 'Compulsory' },
-      { code: 'MHZ3310', title: 'Calculus I', level: 3, semester: 1, credits: 3, category: 'Z', type: 'Compulsory' },
-      
-      { code: 'AGB3101', title: 'Essentials of Life and Earth Systems', level: 3, semester: 2, credits: 1, category: 'B', type: 'Compulsory' },
-      { code: 'DMB3202', title: 'Measurements in Engineering', level: 3, semester: 2, credits: 2, category: 'B', type: 'Compulsory' },
-      { code: 'EEK3218', title: 'Software Development for Engineers', level: 3, semester: 2, credits: 2, category: 'K', type: 'Compulsory' },
-      { code: 'EES3330', title: 'Introduction to Electrical and Electronic Engineering', level: 3, semester: 2, credits: 3, category: 'S', type: 'Compulsory' },
-      { code: 'EES3236', title: 'Introduction to Computer and Communication Engineering', level: 3, semester: 2, credits: 2, category: 'S', type: 'Compulsory' },
-      { code: 'MHZ3311', title: 'Differential Equations', level: 3, semester: 2, credits: 3, category: 'Z', type: 'Compulsory' },
-      { code: 'MHZ3212', title: 'Linear Algebra', level: 3, semester: 2, credits: 2, category: 'Z', type: 'Compulsory' },
+    const SYLLABI_DATABASE = {
+  "BScHonsEng_Agricultural": [
+    {
+      "code": "AGM3203",
+      "title": "Communication skills",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVB3310",
+      "title": "Mechanics and Materials",
+      "level": 3,
+      "semester": 1,
+      "credits": 3,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMB3301",
+      "title": "Thermo - Fluids",
+      "level": 3,
+      "semester": 1,
+      "credits": 3,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS3203",
+      "title": "Workshop Practice",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS3205",
+      "title": "Engineering Graphics",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEB3210",
+      "title": "Theory of Electricity",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEK3217",
+      "title": "Programming Fundamentals",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "K",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ3310",
+      "title": "Calculus I",
+      "level": 3,
+      "semester": 1,
+      "credits": 3,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGB3101",
+      "title": "Essentials of Life and Earth Systems",
+      "level": 3,
+      "semester": 2,
+      "credits": 1,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS3201",
+      "title": "Basic Biology",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS3340",
+      "title": "Fundamentals of Hydrology and Hydraulics",
+      "level": 3,
+      "semester": 2,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMB3202",
+      "title": "Measurements in Engineering",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEK3218",
+      "title": "Software Development for Engineers",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "K",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ3311",
+      "title": "Differential Equations",
+      "level": 3,
+      "semester": 2,
+      "credits": 3,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ3212",
+      "title": "Linear Algebra",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGM4307",
+      "title": "Economics and Marketing for Engineers",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS4204",
+      "title": "Crop Technology I",
+      "level": 4,
+      "semester": 3,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS4205",
+      "title": "Principles of Postharvest Engineering and",
+      "level": 4,
+      "semester": 3,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS4208",
+      "title": "Crop Technology II",
+      "level": 4,
+      "semester": 3,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS4242",
+      "title": "Surveying I",
+      "level": 4,
+      "semester": 3,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS4205",
+      "title": "Strength of Materials I",
+      "level": 4,
+      "semester": 3,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ4313",
+      "title": "Calculus II",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ4214",
+      "title": "Probability and Statistics",
+      "level": 4,
+      "semester": 3,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS4306",
+      "title": "Design of Agricultural Machine Elements",
+      "level": 4,
+      "semester": 4,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS4209",
+      "title": "Applications of Postharvest Engineering and",
+      "level": 4,
+      "semester": 4,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS4356",
+      "title": "Soil Science",
+      "level": 4,
+      "semester": 4,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGW4302",
+      "title": "Industrial Training I (Agric. Engineering) 8",
+      "level": 4,
+      "semester": 4,
+      "credits": 3,
+      "category": "W",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGY4260",
+      "title": "Group Project (Agric Engineering) 8",
+      "level": 4,
+      "semester": 4,
+      "credits": 2,
+      "category": "Y",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS4240",
+      "title": "Engineering Hydrology",
+      "level": 4,
+      "semester": 4,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVM4401",
+      "title": "Accounting for Engineers",
+      "level": 4,
+      "semester": 4,
+      "credits": 4,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS5310",
+      "title": "Soil Management Tillage and Traction",
+      "level": 5,
+      "semester": 5,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS5111",
+      "title": "Research Methodology and Project Identification",
+      "level": 5,
+      "semester": 5,
+      "credits": 1,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS5212",
+      "title": "Farm Power Sources 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS5213",
+      "title": "Design and Management of Irrigation",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS5276",
+      "title": "Crop Processing 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGY5415",
+      "title": "Comprehensive Design Project (Agric",
+      "level": 5,
+      "semester": 5,
+      "credits": 4,
+      "category": "Y",
+      "type": "Compulsory"
+    },
+    {
+      "code": "LLM5231",
+      "title": "Basic Laws Relating to Engineering and",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHJ5333",
+      "title": "Technology, Society, and Environment 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 3,
+      "category": "J",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS5214",
+      "title": "Food Science 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS5316",
+      "title": "Farm Power and Mechanization",
+      "level": 5,
+      "semester": 6,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS5217",
+      "title": "Design and Management of Drainage",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGW5303",
+      "title": "Industrial Training II (Agric. Engineering) AGW4302 (CR), 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 3,
+      "category": "W",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHJ5234",
+      "title": "History of Technology 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "J",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHM5232",
+      "title": "Professional Ethics 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS5218",
+      "title": "Postharvest Processing and Value Addition",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "AGS5320",
+      "title": "Sustainable Agricultural Technology 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 3,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "AGS5367",
+      "title": "Soil Plant Water Management",
+      "level": 5,
+      "semester": 6,
+      "credits": 3,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "AGS5277",
+      "title": "Food Safety and Quality Management Systems 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "AGS6225",
+      "title": "Environmental Control in Farm Structures 45",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS6278",
+      "title": "Agricultural Hydrology",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS6283",
+      "title": "Groundwater Resources Management",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS6387",
+      "title": "Plantation Crop Technology 24",
+      "level": 6,
+      "semester": 7,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS6289",
+      "title": "Soil Erosion",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGY6881",
+      "title": "Engineering Research Project",
+      "level": 6,
+      "semester": 7,
+      "credits": 8,
+      "category": "Y",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMM6301",
+      "title": "Management for Engineers I",
+      "level": 6,
+      "semester": 7,
+      "credits": 3,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS6285",
+      "title": "Well Hydraulics and Design",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS6290",
+      "title": "Soil and Water Conservation",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMM6302",
+      "title": "Management for Engineers II",
+      "level": 6,
+      "semester": 8,
+      "credits": 3,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS6230",
+      "title": "Food Engineering",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "AGS6284",
+      "title": "Impact of Climate Change on Water Resources 45",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "AGS6291",
+      "title": "Landscaping 45",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "AGS6292",
+      "title": "Commercial Horticulture",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    }
+  ],
+  "BScHonsEng_Civil": [
+    {
+      "code": "AGM3203",
+      "title": "Communication Skills",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVB3310",
+      "title": "Mechanics and Materials",
+      "level": 3,
+      "semester": 1,
+      "credits": 3,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMB3301",
+      "title": "Heat and Fluid",
+      "level": 3,
+      "semester": 1,
+      "credits": 3,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS3203",
+      "title": "Workshop Practice",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS3205",
+      "title": "Engineering Graphics",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEB3210",
+      "title": "Theory of Electricity",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEK3217",
+      "title": "Programming Fundamentals",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "K",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ3310",
+      "title": "Calculus I",
+      "level": 3,
+      "semester": 1,
+      "credits": 3,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGB3101",
+      "title": "Essentials of Life and Earth Systems",
+      "level": 3,
+      "semester": 2,
+      "credits": 1,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS3340",
+      "title": "Fundamentals of Hydrology and Hydraulics",
+      "level": 3,
+      "semester": 2,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS3242",
+      "title": "Strength of Materials",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMB3202",
+      "title": "Measurements in Engineering",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEK3218",
+      "title": "Software Development for Engineers",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "K",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ3311",
+      "title": "Differential Equations",
+      "level": 3,
+      "semester": 2,
+      "credits": 3,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ3212",
+      "title": "Linear Algebra",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGM4307",
+      "title": "Economics and Marketing for Engineers",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS4241",
+      "title": "Structural Analysis I",
+      "level": 4,
+      "semester": 3,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS4242",
+      "title": "Surveying I",
+      "level": 4,
+      "semester": 3,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS4243",
+      "title": "Soil Mechanics",
+      "level": 4,
+      "semester": 3,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS4247",
+      "title": "Concrete Technology 10",
+      "level": 4,
+      "semester": 3,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS4250",
+      "title": "Quantity Surveying",
+      "level": 4,
+      "semester": 3,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ4313",
+      "title": "Calculus II",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ4214",
+      "title": "Probability and Statistics",
+      "level": 4,
+      "semester": 3,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ4215",
+      "title": "Numerical Methods",
+      "level": 4,
+      "semester": 4,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVM4401",
+      "title": "Accounting for Engineers",
+      "level": 4,
+      "semester": 4,
+      "credits": 4,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS4240",
+      "title": "Engineering Hydrology",
+      "level": 4,
+      "semester": 4,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS4244",
+      "title": "Engineering Geology 10",
+      "level": 4,
+      "semester": 4,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS4245",
+      "title": "Structural Analysis II",
+      "level": 4,
+      "semester": 4,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS4246",
+      "title": "Construction Engineering 10",
+      "level": 4,
+      "semester": 4,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS4249",
+      "title": "Building Service Engineering",
+      "level": 4,
+      "semester": 4,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS4251",
+      "title": "Sustainability for Engineering 10",
+      "level": 4,
+      "semester": 4,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS5240",
+      "title": "Surveying II",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS5241",
+      "title": "Hydraulics",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS5242",
+      "title": "Design of Timber and Masonry Structures",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS5343",
+      "title": "Advanced Structural Analysis",
+      "level": 5,
+      "semester": 5,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS5245",
+      "title": "Design of Concrete Structures",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS5246",
+      "title": "Highway and Traffic Engineering",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "LLM5231",
+      "title": "Basic Laws Relating to Engineering and",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHJ5333",
+      "title": "Technology, Society, and Environment 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 3,
+      "category": "J",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS5344",
+      "title": "Geotechnical Engineering",
+      "level": 5,
+      "semester": 6,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS5247",
+      "title": "Hydraulic Engineering and Design",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS5180",
+      "title": "Research Methodology",
+      "level": 5,
+      "semester": 6,
+      "credits": 1,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVW5603",
+      "title": "Industrial Training (Civil-Undergraduate) 30",
+      "level": 5,
+      "semester": 6,
+      "credits": 6,
+      "category": "W",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHM5232",
+      "title": "Professional Ethics 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS6251",
+      "title": "Bridge Engineering 34",
+      "level": 6,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "CVS6252",
+      "title": "Ground Improvement Techniques 34",
+      "level": 6,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "CVS6253",
+      "title": "Applied Engineering Geology 34",
+      "level": 6,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "CVS6254",
+      "title": "Irrigation Engineering 34",
+      "level": 6,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "CVS6255",
+      "title": "Water and Wastewater Engineering 34",
+      "level": 6,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "CVS6240",
+      "title": "Design of Steel Structures",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS6243",
+      "title": "Design of Prestressed Concrete and Water",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS6245",
+      "title": "Environmental Engineering",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS6446",
+      "title": "Construction Engineering and Management",
+      "level": 6,
+      "semester": 7,
+      "credits": 4,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVY6880",
+      "title": "Engineering Research Project (ERP)",
+      "level": 6,
+      "semester": 7,
+      "credits": 8,
+      "category": "Y",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVY6385",
+      "title": "Comprehensive Design Project (CDP)",
+      "level": 6,
+      "semester": 7,
+      "credits": 3,
+      "category": "Y",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMM6301",
+      "title": "Management for Engineers I",
+      "level": 6,
+      "semester": 7,
+      "credits": 3,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS6241",
+      "title": "Environmental Engineering Design",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS6342",
+      "title": "Geotechnical Engineering Design",
+      "level": 6,
+      "semester": 8,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVX7640",
+      "title": "(CA), additional 65",
+      "level": 7,
+      "semester": 8,
+      "credits": 6,
+      "category": "X",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMM6302",
+      "title": "Management for Engineers II",
+      "level": 6,
+      "semester": 8,
+      "credits": 3,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVS6261",
+      "title": "Computational Mechanics using Finite",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "CVS6262",
+      "title": "Coastal Engineering and Coastal Zone",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "CVS6263",
+      "title": "Environmental Modelling and Management 34",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "CVS6264",
+      "title": "Remote Sensing and GIS 34",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "CVS6265",
+      "title": "Rock Mechanics 34",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "CVY4385",
+      "title": "Group Project (Civil -Higher Diploma) 30",
+      "level": 4,
+      "semester": 8,
+      "credits": 3,
+      "category": "Y",
+      "type": "Elective"
+    }
+  ],
+  "BScHonsEng_Computer": [
+    {
+      "code": "AGM3203",
+      "title": "Communication Skills",
+      "level": 3,
+      "semester": 8,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVB3310",
+      "title": "Mechanics and Materials",
+      "level": 3,
+      "semester": 8,
+      "credits": 3,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMB3301",
+      "title": "Thermo-Fluids",
+      "level": 3,
+      "semester": 8,
+      "credits": 3,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS3203",
+      "title": "Workshop Practice",
+      "level": 3,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS3205",
+      "title": "Engineering Graphics",
+      "level": 3,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEB3210",
+      "title": "Theory of Electricity",
+      "level": 3,
+      "semester": 8,
+      "credits": 2,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEK3217",
+      "title": "Programming Fundamentals",
+      "level": 3,
+      "semester": 8,
+      "credits": 2,
+      "category": "K",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ3310",
+      "title": "Calculus I",
+      "level": 3,
+      "semester": 8,
+      "credits": 3,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGB3101",
+      "title": "Essentials of Life and Earth Systems",
+      "level": 3,
+      "semester": 2,
+      "credits": 1,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMB3202",
+      "title": "Measurements in Engineering",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEK3218",
+      "title": "Software Development for Engineers",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "K",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES3330",
+      "title": "Introduction to Electrical and Electronic",
+      "level": 3,
+      "semester": 2,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES3236",
+      "title": "Introduction to Computer and Communication",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ3311",
+      "title": "Differential Equations",
+      "level": 3,
+      "semester": 2,
+      "credits": 3,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ3212",
+      "title": "Linear Algebra",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES4317",
+      "title": "Object-Oriented Design and Programming",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES4320",
+      "title": "Introduction to AI and Techniques",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES4331",
+      "title": "Circuit Theory and Design",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEX3410",
+      "title": "(CA)",
+      "level": 3,
+      "semester": 3,
+      "credits": 4,
+      "category": "X",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES4436",
+      "title": "Microprocessor and Interfacing",
+      "level": 4,
+      "semester": 3,
+      "credits": 4,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ4214",
+      "title": "Probability and Statistics",
+      "level": 4,
+      "semester": 3,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES4230",
+      "title": "Analog Electronics",
+      "level": 4,
+      "semester": 4,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES4235",
+      "title": "Data Structures and Algorithms",
+      "level": 4,
+      "semester": 4,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES5219",
+      "title": "Information Security",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES5325",
+      "title": "Operating Systems",
+      "level": 5,
+      "semester": 5,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEX3417",
+      "title": "(P), EEX4436 (CA), additional 24",
+      "level": 3,
+      "semester": 5,
+      "credits": 4,
+      "category": "X",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES5326",
+      "title": "Digital Electronic Design",
+      "level": 5,
+      "semester": 5,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES5239",
+      "title": "Signals and Systems",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "LLM5231",
+      "title": "Basic Laws Relating to Engineering and Technology 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ5318",
+      "title": "Discrete Mathematics 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 3,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES5334",
+      "title": "Data Communications and Networking 30",
+      "level": 5,
+      "semester": 6,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES5236",
+      "title": "Computer Architecture and Organization I",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES6191",
+      "title": "Research Methodology and Project Identification",
+      "level": 6,
+      "semester": 6,
+      "credits": 1,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEW5691",
+      "title": "Industrial Training (Computer Systems)",
+      "level": 5,
+      "semester": 6,
+      "credits": 6,
+      "category": "W",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHM5232",
+      "title": "Professional Ethics 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHJ5234",
+      "title": "History of Technology 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "J",
+      "type": "Elective"
+    },
+    {
+      "code": "MHJ5235",
+      "title": "Nature of Science 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "J",
+      "type": "Elective"
+    },
+    {
+      "code": "DMM6301",
+      "title": "Management for Engineers I",
+      "level": 6,
+      "semester": 7,
+      "credits": 3,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES6335",
+      "title": "Compiler Design",
+      "level": 6,
+      "semester": 7,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES6236",
+      "title": "Computer Architecture and Organisation II",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEY6401",
+      "title": "System Design in Groups",
+      "level": 6,
+      "semester": 7,
+      "credits": 4,
+      "category": "Y",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEY6881",
+      "title": "Engineering Research Project (Computer",
+      "level": 6,
+      "semester": 7,
+      "credits": 8,
+      "category": "Y",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHJ5333",
+      "title": "Technology, Society, and Environment 24",
+      "level": 5,
+      "semester": 7,
+      "credits": 3,
+      "category": "J",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMM6302",
+      "title": "Management for Engineers II",
+      "level": 6,
+      "semester": 8,
+      "credits": 3,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES6121",
+      "title": "Emerging Technologies",
+      "level": 6,
+      "semester": 8,
+      "credits": 1,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES6227",
+      "title": "Embedded Systems Design",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES5230",
+      "title": "Advanced Electronics",
+      "level": 5,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "EES6219",
+      "title": "Creative Design",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "EEY4280",
+      "title": "Higher Diploma Project",
+      "level": 4,
+      "semester": 8,
+      "credits": 2,
+      "category": "Y",
+      "type": "Elective"
+    }
+  ],
+  "BScHonsEng_Electrical": [
+    {
+      "code": "AGM3203",
+      "title": "Communication Skills",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVB3310",
+      "title": "Mechanics and Materials",
+      "level": 3,
+      "semester": 1,
+      "credits": 3,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMB3301",
+      "title": "Thermo - Fluids",
+      "level": 3,
+      "semester": 1,
+      "credits": 3,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS3203",
+      "title": "Workshop Practice",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS3205",
+      "title": "Engineering Graphics",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEB3210",
+      "title": "Theory of Electricity",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEK3217",
+      "title": "Programming Fundamentals",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "K",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ3310",
+      "title": "Calculus I",
+      "level": 3,
+      "semester": 1,
+      "credits": 3,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGB3101",
+      "title": "Essentials of Life and Earth Systems",
+      "level": 3,
+      "semester": 2,
+      "credits": 1,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMB3202",
+      "title": "Measurements in Engineering",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEK3218",
+      "title": "Software Development for Engineers",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "K",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES3330",
+      "title": "Introduction to Electrical and Electronic Engineering",
+      "level": 3,
+      "semester": 2,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES3236",
+      "title": "Introduction to Computer and Communication",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ3311",
+      "title": "Differential Equations",
+      "level": 3,
+      "semester": 2,
+      "credits": 3,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ3212",
+      "title": "Linear Algebra",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES4222",
+      "title": "Power Systems and Electrical Machines",
+      "level": 4,
+      "semester": 3,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES4331",
+      "title": "Circuit Theory and Design",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEX3410",
+      "title": "(CA)",
+      "level": 3,
+      "semester": 3,
+      "credits": 4,
+      "category": "X",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES4436",
+      "title": "Microprocessors and Interfacing",
+      "level": 4,
+      "semester": 3,
+      "credits": 4,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ4313",
+      "title": "Calculus II",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ4214",
+      "title": "Probability and Statistics",
+      "level": 4,
+      "semester": 3,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES4230",
+      "title": "Analog Electronics",
+      "level": 4,
+      "semester": 4,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES4328",
+      "title": "Electrical Machines",
+      "level": 4,
+      "semester": 4,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES4332",
+      "title": "Power Systems I",
+      "level": 4,
+      "semester": 4,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEW4392",
+      "title": "Industrial Training (Electrical Power – Higher Diploma)",
+      "level": 4,
+      "semester": 4,
+      "credits": 3,
+      "category": "W",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEW4393",
+      "title": "Industrial Training I (Electronics)",
+      "level": 4,
+      "semester": 4,
+      "credits": 3,
+      "category": "W",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ4215",
+      "title": "Numerical Methods",
+      "level": 4,
+      "semester": 4,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ4216",
+      "title": "Fourier Analysis",
+      "level": 4,
+      "semester": 4,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES5310",
+      "title": "Electrical Installation Design",
+      "level": 5,
+      "semester": 4,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS5209",
+      "title": "Modelling & Analysis of Dynamic Systems",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES5316",
+      "title": "Power Electronics",
+      "level": 5,
+      "semester": 5,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES5222",
+      "title": "Protection of Power Systems",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES5326",
+      "title": "Digital Electronic Design",
+      "level": 5,
+      "semester": 5,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES5232",
+      "title": "Power Systems II",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ5219",
+      "title": "Stochastic Processes",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES6211",
+      "title": "Electromagnetism and Wave Propagation",
+      "level": 6,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVM4401",
+      "title": "Accounting for Engineers",
+      "level": 4,
+      "semester": 6,
+      "credits": 4,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS5210",
+      "title": "Design of Classical Control Systems",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES5328",
+      "title": "Electrical Machines and Drives",
+      "level": 5,
+      "semester": 6,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES5338",
+      "title": "High Voltage Engineering",
+      "level": 5,
+      "semester": 6,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEW5392",
+      "title": "Industrial Training II (Electrical Power -Undergraduate)",
+      "level": 5,
+      "semester": 6,
+      "credits": 3,
+      "category": "W",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES6192",
+      "title": "Research Methodology and Project Identification",
+      "level": 6,
+      "semester": 6,
+      "credits": 1,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEX4542",
+      "title": "(CA)",
+      "level": 4,
+      "semester": 6,
+      "credits": 5,
+      "category": "X",
+      "type": "Compulsory"
+    },
+    {
+      "code": "LLM5231",
+      "title": "Basic Laws Relating to Engineering and Technology 24",
+      "level": 5,
+      "semester": 7,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHJ5333",
+      "title": "Technology, Society and Environment 24",
+      "level": 5,
+      "semester": 7,
+      "credits": 3,
+      "category": "J",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMM6301",
+      "title": "Management for Engineers I",
+      "level": 6,
+      "semester": 7,
+      "credits": 3,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES6222",
+      "title": "Modern Power Systems",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES6232",
+      "title": "Power System Planning and Economics",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEY6882",
+      "title": "Engineering Research Project",
+      "level": 6,
+      "semester": 7,
+      "credits": 8,
+      "category": "Y",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHM5232",
+      "title": "Professional Ethics 24",
+      "level": 5,
+      "semester": 8,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMM6302",
+      "title": "Management for Engineers II",
+      "level": 6,
+      "semester": 8,
+      "credits": 3,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES6212",
+      "title": "Power Systems Operation and Control",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHJ5234",
+      "title": "History of Technology 24",
+      "level": 5,
+      "semester": 8,
+      "credits": 2,
+      "category": "J",
+      "type": "Elective"
+    },
+    {
+      "code": "MHJ5235",
+      "title": "Nature of Science 24",
+      "level": 5,
+      "semester": 8,
+      "credits": 2,
+      "category": "J",
+      "type": "Elective"
+    },
+    {
+      "code": "DMS6205",
+      "title": "Factory Automation",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "DMS6207",
+      "title": "Modern Control Systems",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "EES6210",
+      "title": "Nuclear Energy",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "EES6216",
+      "title": "Power Electronics Applications",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "EES6218",
+      "title": "Natural Language Processing",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "EES6228",
+      "title": "Image Processing",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "EES6231",
+      "title": "Network Theory",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "EES6238",
+      "title": "Electricity Market and Power System Economics",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "EES6239",
+      "title": "Renewable Energy Integration in Power Systems 45",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "TAS6410",
+      "title": "Ergonomics 45",
+      "level": 6,
+      "semester": 8,
+      "credits": 4,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "EEY4280",
+      "title": "Higher Diploma Project",
+      "level": 4,
+      "semester": 8,
+      "credits": 2,
+      "category": "Y",
+      "type": "Elective"
+    }
+  ],
+  "BScHonsEng_Electronics": [
+    {
+      "code": "AGM3203",
+      "title": "Communication skills",
+      "level": 3,
+      "semester": 8,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVB3310",
+      "title": "Mechanics and Materials",
+      "level": 3,
+      "semester": 8,
+      "credits": 3,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMB3301",
+      "title": "Thermo - Fluids",
+      "level": 3,
+      "semester": 8,
+      "credits": 3,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEB3210",
+      "title": "Theory of Electricity",
+      "level": 3,
+      "semester": 8,
+      "credits": 2,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS3203",
+      "title": "Workshop Practice",
+      "level": 3,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS3205",
+      "title": "Engineering Graphics",
+      "level": 3,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEK3217",
+      "title": "Programming Fundamentals",
+      "level": 3,
+      "semester": 8,
+      "credits": 2,
+      "category": "K",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ3310",
+      "title": "Calculus I",
+      "level": 3,
+      "semester": 8,
+      "credits": 3,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGB3101",
+      "title": "Essentials of Life and Earth Systems",
+      "level": 3,
+      "semester": 2,
+      "credits": 1,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMB3202",
+      "title": "Measurements in Engineering",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEK3218",
+      "title": "Software Development for Engineers",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "K",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES3330",
+      "title": "Introduction to Electrical and Electronic",
+      "level": 3,
+      "semester": 2,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES3236",
+      "title": "Introduction to Computer and Communication",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ3311",
+      "title": "Differential Equations",
+      "level": 3,
+      "semester": 2,
+      "credits": 3,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ3212",
+      "title": "Linear Algebra",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES4222",
+      "title": "Power Systems and Electrical Machines",
+      "level": 4,
+      "semester": 3,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES4331",
+      "title": "Circuit Theory and Design",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEX3410",
+      "title": "(CA)",
+      "level": 3,
+      "semester": 3,
+      "credits": 4,
+      "category": "X",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES4436",
+      "title": "Microprocessors and Interfacing",
+      "level": 4,
+      "semester": 3,
+      "credits": 4,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ4313",
+      "title": "Calculus II",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ4214",
+      "title": "Probability and Statistics",
+      "level": 4,
+      "semester": 3,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES4230",
+      "title": "Analog Electronics",
+      "level": 4,
+      "semester": 4,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES4333",
+      "title": "Communications",
+      "level": 4,
+      "semester": 4,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES4235",
+      "title": "Data Structures and Algorithms",
+      "level": 4,
+      "semester": 4,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEW4393",
+      "title": "Industrial Training (Electronics)",
+      "level": 4,
+      "semester": 4,
+      "credits": 3,
+      "category": "W",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ4216",
+      "title": "Fourier Analysis",
+      "level": 4,
+      "semester": 4,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES5334",
+      "title": "Data Communications and Networking 30",
+      "level": 5,
+      "semester": 4,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHJ5234",
+      "title": "History of Technology 24",
+      "level": 5,
+      "semester": 4,
+      "credits": 2,
+      "category": "J",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHJ5235",
+      "title": "Nature of Science 24",
+      "level": 5,
+      "semester": 4,
+      "credits": 2,
+      "category": "J",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS5209",
+      "title": "Modelling & Analysis of Dynamic Systems",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES5326",
+      "title": "Digital Electronics Design",
+      "level": 5,
+      "semester": 5,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES5230",
+      "title": "Advanced Electronics",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES5333",
+      "title": "Communication Theory and Systems",
+      "level": 5,
+      "semester": 5,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES5239",
+      "title": "Signals and Systems",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHJ5333",
+      "title": "Technology, Society, and Environment 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 3,
+      "category": "J",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES6211",
+      "title": "Electromagnetism and Wave Propagation",
+      "level": 6,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVM4401",
+      "title": "Accounting for Engineers",
+      "level": 4,
+      "semester": 6,
+      "credits": 4,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS5210",
+      "title": "Design of Classical Control Systems",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEW5393",
+      "title": "Industrial Training II (Electronics and",
+      "level": 5,
+      "semester": 6,
+      "credits": 3,
+      "category": "W",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES6193",
+      "title": "Research Methodology and Project Identification",
+      "level": 6,
+      "semester": 6,
+      "credits": 1,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES6213",
+      "title": "Microwave Engineering",
+      "level": 6,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES6333",
+      "title": "Wireless Communications",
+      "level": 6,
+      "semester": 6,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEY6403",
+      "title": "Comprehensive Electronics Design",
+      "level": 6,
+      "semester": 6,
+      "credits": 4,
+      "category": "Y",
+      "type": "Compulsory"
+    },
+    {
+      "code": "LLM5231",
+      "title": "Basic Laws Relating to Engineering and",
+      "level": 5,
+      "semester": 7,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMM6301",
+      "title": "Management for Engineers I",
+      "level": 6,
+      "semester": 7,
+      "credits": 3,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES6108",
+      "title": "Emerging Trends in Electronics and",
+      "level": 6,
+      "semester": 7,
+      "credits": 1,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES6214",
+      "title": "Antenna Design",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES6230",
+      "title": "Electronics Circuit Design",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEY6883",
+      "title": "Engineering Research Project (Electronics and",
+      "level": 6,
+      "semester": 7,
+      "credits": 8,
+      "category": "Y",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES4317",
+      "title": "Object-Oriented Design and Programming",
+      "level": 4,
+      "semester": 7,
+      "credits": 3,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "EES4320",
+      "title": "Introduction to AI and Techniques",
+      "level": 4,
+      "semester": 7,
+      "credits": 3,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "EES5310",
+      "title": "Electrical Installation Design",
+      "level": 5,
+      "semester": 7,
+      "credits": 3,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "EES5316",
+      "title": "Power Electronics",
+      "level": 5,
+      "semester": 7,
+      "credits": 3,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "EES5219",
+      "title": "Information Security",
+      "level": 5,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "EES5235",
+      "title": "Advanced Data Structures and Algorithms",
+      "level": 5,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "EEX3417",
+      "title": "(P), EEX4436 (CA), additional 24",
+      "level": 3,
+      "semester": 7,
+      "credits": 4,
+      "category": "X",
+      "type": "Elective"
+    },
+    {
+      "code": "EES6227",
+      "title": "Embedded Systems Design",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "EES6228",
+      "title": "Image Processing",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "MHM5232",
+      "title": "Professional Ethics 24",
+      "level": 5,
+      "semester": 8,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES5236",
+      "title": "Computer Architecture and Organization I",
+      "level": 5,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMM6302",
+      "title": "Management for Engineers II",
+      "level": 6,
+      "semester": 8,
+      "credits": 3,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES6215",
+      "title": "Physical and Opto Electronics",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES6237",
+      "title": "Internet Technologies for Distributed Computing",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES5318",
+      "title": "Data Science",
+      "level": 5,
+      "semester": 8,
+      "credits": 3,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "EES5229",
+      "title": "Neural Network and Fuzzy Logic Applications",
+      "level": 5,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "EES6223",
+      "title": "Digital Signal Processing",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "EES6224",
+      "title": "Information Theory and Coding",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "EES6225",
+      "title": "Optical Communications",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "EES6329",
+      "title": "Processor Design",
+      "level": 6,
+      "semester": 8,
+      "credits": 3,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "EES6234",
+      "title": "Advanced Control Engineering",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "EES6209",
+      "title": "Cloud Computing",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "EEY4280",
+      "title": "Higher Diploma Project",
+      "level": 4,
+      "semester": 8,
+      "credits": 2,
+      "category": "Y",
+      "type": "Elective"
+    }
+  ],
+  "BScHonsEng_Mechanical": [
+    {
+      "code": "AGM3203",
+      "title": "Communication Skills",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVB3310",
+      "title": "Mechanics and Materials",
+      "level": 3,
+      "semester": 1,
+      "credits": 3,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMB3301",
+      "title": "Thermo-Fluids",
+      "level": 3,
+      "semester": 1,
+      "credits": 3,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS3203",
+      "title": "Workshop Practice",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS3205",
+      "title": "Engineering Graphics",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEB3210",
+      "title": "Theory of Electricity",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEK3217",
+      "title": "Programming Fundamentals",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "K",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ3310",
+      "title": "Calculus I",
+      "level": 3,
+      "semester": 1,
+      "credits": 3,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGB3101",
+      "title": "Essentials of Life and Earth Systems",
+      "level": 3,
+      "semester": 2,
+      "credits": 1,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMB3202",
+      "title": "Measurements in Engineering",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS3204",
+      "title": "Engineering Mechanics I CVB3310(CR) (DMX3302(CA), DMX3203(CA)) OR",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS3206",
+      "title": "Manufacturing Technology I CVB3310(CR), DMX3203(CR) (DMX3203(CA) OR CVB3310(CR))",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS3207",
+      "title": "Analog and Digital Electronics",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEK3218",
+      "title": "Software Development for Engineers",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "K",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ3311",
+      "title": "Differential Equations",
+      "level": 3,
+      "semester": 2,
+      "credits": 3,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ3212",
+      "title": "Linear Algebra",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGM4307",
+      "title": "Economics and Marketing for Engineers",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS4201",
+      "title": "Applied Thermodynamics I",
+      "level": 4,
+      "semester": 3,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS4202",
+      "title": "Applied Fluid Dynamics I",
+      "level": 4,
+      "semester": 3,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS4203",
+      "title": "Mechatronics systems",
+      "level": 4,
+      "semester": 3,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS4204",
+      "title": "Advanced Engineering Graphics",
+      "level": 4,
+      "semester": 3,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS4205",
+      "title": "Strength of Materials I",
+      "level": 4,
+      "semester": 3,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES4436",
+      "title": "Microprocessor and Interfacing",
+      "level": 4,
+      "semester": 3,
+      "credits": 4,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ4313",
+      "title": "Calculus II",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ4214",
+      "title": "Probability and Statistics",
+      "level": 4,
+      "semester": 3,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVM4401",
+      "title": "Accounting for Engineers",
+      "level": 4,
+      "semester": 4,
+      "credits": 4,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS4207",
+      "title": "Automobile Technology",
+      "level": 4,
+      "semester": 4,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMW4308",
+      "title": "Industrial Training I (Mechanical)",
+      "level": 4,
+      "semester": 4,
+      "credits": 3,
+      "category": "W",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMY4306",
+      "title": "Mechanical Engineering Challenge 24",
+      "level": 4,
+      "semester": 4,
+      "credits": 3,
+      "category": "Y",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ4215",
+      "title": "Numerical Methods",
+      "level": 4,
+      "semester": 4,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHJ5235",
+      "title": "Nature of Science 24",
+      "level": 5,
+      "semester": 4,
+      "credits": 2,
+      "category": "J",
+      "type": "Elective"
+    },
+    {
+      "code": "MHJ5234",
+      "title": "History of Technology 24",
+      "level": 5,
+      "semester": 4,
+      "credits": 2,
+      "category": "J",
+      "type": "Elective"
+    },
+    {
+      "code": "DMS5201",
+      "title": "Engineering Mechanics II",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS5202",
+      "title": "Applied Fluid Dynamics II",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS5203",
+      "title": "Applied Thermodynamics II",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS5204",
+      "title": "Strength of Materials II",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS5406",
+      "title": "Design of Machine Elements",
+      "level": 5,
+      "semester": 5,
+      "credits": 4,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS5209",
+      "title": "Modelling and Analysis of Dynamic Systems",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "LLM5231",
+      "title": "Basic Laws Relating to Engineering and Technology 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHJ5333",
+      "title": "Technology, Society, and Environment 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 3,
+      "category": "J",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS5205",
+      "title": "Materials Engineering CVB3310(P) DMX3203(P)",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS5207",
+      "title": "Electrical and Fluid Machinery",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS5208",
+      "title": "Manufacturing Technology II",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS5210",
+      "title": "Design of Classical Control Systems",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS5411",
+      "title": "Mechanical Engineering Design",
+      "level": 5,
+      "semester": 6,
+      "credits": 4,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS5112",
+      "title": "Introduction to Engineering Research",
+      "level": 5,
+      "semester": 6,
+      "credits": 1,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMW5313",
+      "title": "Industrial Training II (Mechanical) DMW4308(CR), additional 45",
+      "level": 5,
+      "semester": 6,
+      "credits": 3,
+      "category": "W",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHM5232",
+      "title": "Professional Ethics 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMM6301",
+      "title": "Management for Engineers I",
+      "level": 6,
+      "semester": 7,
+      "credits": 3,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS6204",
+      "title": "Design for Manufacturing and",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS6205",
+      "title": "Factory Automation",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS6206",
+      "title": "AI Techniques",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMY6850",
+      "title": "Mechanical Engineering Research",
+      "level": 6,
+      "semester": 7,
+      "credits": 8,
+      "category": "Y",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMX6180",
+      "title": "(CA), additional 70",
+      "level": 6,
+      "semester": 7,
+      "credits": 1,
+      "category": "X",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS6211",
+      "title": "Thermal Power Technologies",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS6212",
+      "title": "Renewable Energy Technologies",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS6219",
+      "title": "Automobile Engineering",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS6220",
+      "title": "Vehicle Electronics and Control",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS6221",
+      "title": "Manufacturing Engineering",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS6222",
+      "title": "Manufacturing Systems",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS6223",
+      "title": "Digital Design for Manufacturing",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMM6302",
+      "title": "Management for Engineers II",
+      "level": 6,
+      "semester": 8,
+      "credits": 3,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS6209",
+      "title": "Sustainability, Innovation, and",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS6224",
+      "title": "Design of Energy Systems",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS6226",
+      "title": "Energy Policy, Economics, and",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS6233",
+      "title": "Design of Manufacturing Systems",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    }
+  ],
+  "BScHonsEng_Mechatronics": [
+    {
+      "code": "AGM3203",
+      "title": "Communication Skills",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVB3310",
+      "title": "Mechanics and Materials",
+      "level": 3,
+      "semester": 1,
+      "credits": 3,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMB3301",
+      "title": "Thermo-Fluids",
+      "level": 3,
+      "semester": 1,
+      "credits": 3,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS3203",
+      "title": "Workshop Practice",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS3205",
+      "title": "Engineering Graphics",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEB3210",
+      "title": "Theory of Electricity",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEK3217",
+      "title": "Programming Fundamentals",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "K",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ3310",
+      "title": "Calculus I",
+      "level": 3,
+      "semester": 1,
+      "credits": 3,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGB3101",
+      "title": "Essentials of Life and Earth Systems",
+      "level": 3,
+      "semester": 2,
+      "credits": 1,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMB3202",
+      "title": "Measurements in Engineering",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS3204",
+      "title": "Engineering Mechanics I CVB3310(CR) DMX3302(CA), DMX3203(CA)) OR",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS3206",
+      "title": "Manufacturing Technology I CVB3310(CR)",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS3207",
+      "title": "Analog and Digital Electronics",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEK3218",
+      "title": "Software Development for Engineers",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "K",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ3311",
+      "title": "Differential Equations",
+      "level": 3,
+      "semester": 2,
+      "credits": 3,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ3212",
+      "title": "Linear Algebra",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGM4307",
+      "title": "Economics and Marketing for Engineers",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS4201",
+      "title": "Applied Thermodynamics I",
+      "level": 4,
+      "semester": 3,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS4202",
+      "title": "Applied Fluid Dynamics I",
+      "level": 4,
+      "semester": 3,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS4205",
+      "title": "Strength of Materials I",
+      "level": 4,
+      "semester": 3,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS4210",
+      "title": "Sensors and Instrumentation",
+      "level": 4,
+      "semester": 3,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EES4436",
+      "title": "Microprocessor and Interfacing",
+      "level": 4,
+      "semester": 3,
+      "credits": 4,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ4313",
+      "title": "Calculus II",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ4214",
+      "title": "Probability and Statistics",
+      "level": 4,
+      "semester": 3,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVM4401",
+      "title": "Accounting for Engineers",
+      "level": 4,
+      "semester": 4,
+      "credits": 4,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS4211",
+      "title": "Image Processing",
+      "level": 4,
+      "semester": 4,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMW4309",
+      "title": "Industrial Training I (Mechatronics)",
+      "level": 4,
+      "semester": 4,
+      "credits": 3,
+      "category": "W",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMY4312",
+      "title": "Mechatronics Engineering Challenge",
+      "level": 4,
+      "semester": 4,
+      "credits": 3,
+      "category": "Y",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ4215",
+      "title": "Numerical Methods",
+      "level": 4,
+      "semester": 4,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ4216",
+      "title": "Fourier Analysis",
+      "level": 4,
+      "semester": 4,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHJ5234",
+      "title": "History of Technology 24",
+      "level": 5,
+      "semester": 4,
+      "credits": 2,
+      "category": "J",
+      "type": "Elective"
+    },
+    {
+      "code": "MHJ5235",
+      "title": "Nature of Science 24",
+      "level": 5,
+      "semester": 4,
+      "credits": 2,
+      "category": "J",
+      "type": "Elective"
+    },
+    {
+      "code": "DMS5201",
+      "title": "Engineering Mechanics II",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS5406",
+      "title": "Design of Machine Elements",
+      "level": 5,
+      "semester": 5,
+      "credits": 4,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS5209",
+      "title": "Modelling and Analysis of Dynamic Systems",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS5215",
+      "title": "Micro and Nano Electromechanical Systems",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS5216",
+      "title": "Signal Processing",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS5217",
+      "title": "Mechatronics Product Design I",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "LLM5231",
+      "title": "Basic Laws Relating to Engineering and Technology 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHJ5333",
+      "title": "Technology, Society, and Environment 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 3,
+      "category": "J",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS5207",
+      "title": "Electrical and Fluid Machinery",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS5210",
+      "title": "Design of Classical Control Systems",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS5112",
+      "title": "Introduction to Engineering Research 45",
+      "level": 5,
+      "semester": 6,
+      "credits": 1,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS5218",
+      "title": "Mechatronics Product Design II",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS5219",
+      "title": "Artificial Intelligence",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS5220",
+      "title": "Power Electronics and Motor Drives",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMW5314",
+      "title": "Industrial Training II (Mechatronics) DMW4309(CR), additional 45",
+      "level": 5,
+      "semester": 6,
+      "credits": 3,
+      "category": "W",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHM5232",
+      "title": "Professional Ethics 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMM6301",
+      "title": "Management for Engineers I",
+      "level": 6,
+      "semester": 7,
+      "credits": 3,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS6203",
+      "title": "Robot Manipulation and Control",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS6205",
+      "title": "Factory Automation",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS6207",
+      "title": "Modern Control Systems",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS6208",
+      "title": "Machine Vision",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMY6851",
+      "title": "Mechatronics Engineering",
+      "level": 6,
+      "semester": 7,
+      "credits": 8,
+      "category": "Y",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS6237",
+      "title": "Cognitive Computing",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS6238",
+      "title": "Machine Learning for Control",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS6239",
+      "title": "Mobile Robotics",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS6242",
+      "title": "Internet of Things (IoT)",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMM6302",
+      "title": "Management for Engineers II",
+      "level": 6,
+      "semester": 8,
+      "credits": 3,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS6210",
+      "title": "Design of Intelligent Control",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS6244",
+      "title": "Predictive Maintenance and",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS6245",
+      "title": "Blockchain Integration for",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS6246",
+      "title": "Building Management Systems",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS6247",
+      "title": "Supply Chain Automation and",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS6248",
+      "title": "Digital Twin Technology",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    }
+  ],
+  "BScHonsEng_Textile": [
+    {
+      "code": "AGM3203",
+      "title": "Communication skills",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVB3310",
+      "title": "* Mechanics and Materials",
+      "level": 3,
+      "semester": 1,
+      "credits": 3,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMB3301",
+      "title": "Thermo-Fluids",
+      "level": 3,
+      "semester": 1,
+      "credits": 3,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS3203",
+      "title": "Workshop Practice",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS3205",
+      "title": "Engineering Graphics",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEB3210",
+      "title": "Theory of Electricity",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEK3217",
+      "title": "Programming Fundamentals",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "K",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ3310",
+      "title": "Calculus I",
+      "level": 3,
+      "semester": 1,
+      "credits": 3,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGB3101",
+      "title": "* Essentials of Life and Earth Systems",
+      "level": 3,
+      "semester": 2,
+      "credits": 1,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMB3202",
+      "title": "* Measurements in Engineering",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "B",
+      "type": "Compulsory"
+    },
+    {
+      "code": "EEK3218",
+      "title": "Software Development for Engineers",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "K",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ3311",
+      "title": "Differential Equations",
+      "level": 3,
+      "semester": 2,
+      "credits": 3,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ3212",
+      "title": "+ Linear Algebra",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS3310",
+      "title": "Fiber Science & Technology",
+      "level": 3,
+      "semester": 2,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS3317",
+      "title": "Garment Analysis and Sewing Machinery",
+      "level": 3,
+      "semester": 2,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGM4307",
+      "title": "Economics and Marketing for Engineers",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ4313",
+      "title": "Calculus II",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ4214",
+      "title": "+ Probability and Statistics",
+      "level": 4,
+      "semester": 3,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS4310",
+      "title": "Yarn Manufacture 1 TAS3310(CA) or [TAS3311(CA) and",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS4311",
+      "title": "Woven Fabric Technology [TAS3310(CA)] or [TAS3311(CA) and",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS4322",
+      "title": "Knitting Technology TAS3310(CA) or [TAS3311(CA) and",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS3212",
+      "title": "(CA)], additional 3",
+      "level": 3,
+      "semester": 3,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "CVM4401",
+      "title": "+ Accounting for Engineers",
+      "level": 4,
+      "semester": 4,
+      "credits": 4,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ4217",
+      "title": "+ Statistical Methods",
+      "level": 4,
+      "semester": 4,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS4312",
+      "title": "Industrial Engineering and AI for Apparel",
+      "level": 4,
+      "semester": 4,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS4413",
+      "title": "Garment Manufacture TAS3317(CA), additional 5",
+      "level": 4,
+      "semester": 4,
+      "credits": 4,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAW4352",
+      "title": "Industrial Training I (Overall industrial training in",
+      "level": 4,
+      "semester": 4,
+      "credits": 3,
+      "category": "W",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAX4560",
+      "title": "(CA), TAS4322(CR) or TAX4361(CA)]",
+      "level": 4,
+      "semester": 4,
+      "credits": 5,
+      "category": "X",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAY4260",
+      "title": "Group Project (Textile & Clothing Engineering)",
+      "level": 4,
+      "semester": 4,
+      "credits": 2,
+      "category": "Y",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMS5209",
+      "title": "Modelling and Analysis of Dynamic Systems",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "LLM5231",
+      "title": "* Basic Laws Relating to Engineering and",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5210",
+      "title": "++ Textile Dyeing 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5212",
+      "title": "Quality Assurance for Textile & Clothing I 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5214",
+      "title": "Basic Weave Designs and Calculations TAS4311(CA), 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5216",
+      "title": "* Principles of Pattern Development 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5160",
+      "title": "Research Methodology and Project Identification",
+      "level": 5,
+      "semester": 5,
+      "credits": 1,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAW5353",
+      "title": "++ TAW5353: Industrial Training II (Textile) TAW5353: [TAS4310(CA) or TAS4311(CA)",
+      "level": 5,
+      "semester": 5,
+      "credits": 3,
+      "category": "W",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAW5354",
+      "title": "++ TAW5354: Industrial Training II (Apparel) TAW5354: [TAS3317(P), TAS4413(CA)]",
+      "level": 5,
+      "semester": 5,
+      "credits": 3,
+      "category": "W",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHM5232",
+      "title": "* Professional Ethics 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5211",
+      "title": "Textile Printing and Finishing TAS5210(CR), 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5213",
+      "title": "Quality Assurance for Textile & Clothing II TAS5212(CR), 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5215",
+      "title": "Fancy and Complex Weave Designs TAS5214(CR), 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5218",
+      "title": "Plant Utilities I 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMM6301",
+      "title": "Management for Engineers I",
+      "level": 6,
+      "semester": 7,
+      "credits": 3,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS6410",
+      "title": "Ergonomics 45",
+      "level": 6,
+      "semester": 7,
+      "credits": 4,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS6211",
+      "title": "* Textile Product Engineering 45",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS6218",
+      "title": "Plant Utilities II TAS5218(CA), 45",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS6319",
+      "title": "Nonwoven Textiles [TAS3310(P)] or [TAS3311(P) &",
+      "level": 6,
+      "semester": 7,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAY6860",
+      "title": "Engineering Research Project (Textile & Clothing",
+      "level": 6,
+      "semester": 7,
+      "credits": 8,
+      "category": "Y",
+      "type": "Compulsory"
+    },
+    {
+      "code": "DMM6302",
+      "title": "Management for Engineers II",
+      "level": 6,
+      "semester": 8,
+      "credits": 3,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS6313",
+      "title": "* Technical Textiles 45",
+      "level": 6,
+      "semester": 8,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAY6461",
+      "title": "Comprehensive Design Project (Group Project",
+      "level": 6,
+      "semester": 8,
+      "credits": 4,
+      "category": "Y",
+      "type": "Compulsory"
+    }
+  ],
+  "BISHons_Agriculture": [
+    {
+      "code": "MHZ3220",
+      "title": "Mathematics for Industrial Studies",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGI3250",
+      "title": "Soil and Land Management",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGI3251",
+      "title": "Plant Physiology",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGI3352",
+      "title": "Crop Production and Technology – I",
+      "level": 3,
+      "semester": 1,
+      "credits": 3,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGI3253",
+      "title": "Insect and Weed Biology",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGM3203",
+      "title": "Communication Skills",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGM3354",
+      "title": "Principles of Economics",
+      "level": 3,
+      "semester": 1,
+      "credits": 3,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ3221",
+      "title": "Mathematics for Agriculture",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAK3219",
+      "title": "Introduction to Computer Applications",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "K",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGI3255",
+      "title": "Land Surveying and Tillage Management",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGI3356",
+      "title": "Genetics and Plant Breeding",
+      "level": 3,
+      "semester": 2,
+      "credits": 3,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGI3257",
+      "title": "Crop Production and Technology – II",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGI3358",
+      "title": "Plant Pathology",
+      "level": 3,
+      "semester": 2,
+      "credits": 3,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ4323",
+      "title": "Applied Statistics",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS4355",
+      "title": "Irrigation Water Management",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGI4359",
+      "title": "Biochemistry and Chemistry of Food",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGI4361",
+      "title": "Postharvest Biology and Technology AGI3251 (CA) AGI3251 (CA) or AGI3551(P)",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS4356",
+      "title": "Soil Science",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS4257",
+      "title": "Drainage Engineering",
+      "level": 4,
+      "semester": 4,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGI4254",
+      "title": "Food and Nutrition",
+      "level": 4,
+      "semester": 4,
+      "credits": 2,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGI4265",
+      "title": "Postharvest Management AGI3251(CA) AGI3251(CA) or AGI3551(P)",
+      "level": 4,
+      "semester": 4,
+      "credits": 2,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGI4362",
+      "title": "Environmental Agriculture AGI3251 (CA)",
+      "level": 4,
+      "semester": 4,
+      "credits": 3,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGM4363",
+      "title": "Agricultural Marketing",
+      "level": 4,
+      "semester": 4,
+      "credits": 3,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGW4301",
+      "title": "Industrial Training I AGI3352 (CA), AGI3257 (CA)",
+      "level": 4,
+      "semester": 4,
+      "credits": 3,
+      "category": "W",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGZ5372",
+      "title": "Experimental Design",
+      "level": 5,
+      "semester": 5,
+      "credits": 3,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS5364",
+      "title": "Farm Power and Machinery AGI3255 (P), AGI3250 (P) AGI3450 (P)",
+      "level": 5,
+      "semester": 5,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS5265",
+      "title": "Soil Plant Water Relationship",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGI5261",
+      "title": "Tissue Culture and In – Vitro Techniques",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGI5259",
+      "title": "Animal Husbandry",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGW5301",
+      "title": "Industrial Training II AGW4301 (CR), pass in 15",
+      "level": 5,
+      "semester": 5,
+      "credits": 3,
+      "category": "W",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGI5166",
+      "title": "Research Methodology",
+      "level": 5,
+      "semester": 6,
+      "credits": 1,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS5367",
+      "title": "Soil Plant Water Management",
+      "level": 5,
+      "semester": 6,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGI5269",
+      "title": "Molecular Biology and Biotechnology",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGI5260",
+      "title": "Animal Production and Food Technology AGI5259 (CR) AGI5259 (CR) or AGI5259(CA)",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGI5370",
+      "title": "Food Microbiology",
+      "level": 5,
+      "semester": 6,
+      "credits": 3,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGJ5368",
+      "title": "Indigenous Knowledge of Medicinal Plants",
+      "level": 5,
+      "semester": 6,
+      "credits": 3,
+      "category": "J",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGI5273",
+      "title": "Agroforestry AGI3251 (P), AGI3356 (P)",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGI5274",
+      "title": "Fruit Crops and Cut Flower Production",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS5276",
+      "title": "Crop Processing",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS5277",
+      "title": "Food Safety and Quality Management Systems",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGI5271",
+      "title": "Anatomy and Physiology of Farm Animals",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGI5275",
+      "title": "Pest of crops AGI3258 (P) AGI3258 (P) or AGI3553(P)",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS6278",
+      "title": "Agricultural Hydrology",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGI6382",
+      "title": "Food Processing AGI4359 (P) AGI4559(P)",
+      "level": 6,
+      "semester": 7,
+      "credits": 3,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS6289",
+      "title": "Soil Erosion",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGM6379",
+      "title": "Agricultural Extension",
+      "level": 6,
+      "semester": 7,
+      "credits": 3,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGJ6381",
+      "title": "Rural Sociology",
+      "level": 6,
+      "semester": 7,
+      "credits": 3,
+      "category": "J",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGY6880",
+      "title": "Individual Project (Agriculture)",
+      "level": 6,
+      "semester": 7,
+      "credits": 8,
+      "category": "Y",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ3458",
+      "title": "(P)",
+      "level": 3,
+      "semester": 7,
+      "credits": 4,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS6285",
+      "title": "Well Hydraulics and Design",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGI6286",
+      "title": "Novel Technologies in Food Processing AGI4254 (P) AGI4254 (P) or AGI4559(P)",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS6290",
+      "title": "Soil and Water Conservation",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGI6301",
+      "title": "Applications in Biotechnology AGI5269 (P), AGI5261(P) AGI5569(CA)",
+      "level": 6,
+      "semester": 7,
+      "credits": 3,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGI6202",
+      "title": "Bioinformatics and Biosafety Regulations AGI5269(CR) AGI5569(CA)",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGI6203",
+      "title": "Pests and Pesticide Management AGI3253(P), AGI3358(P) AGI3553(P)",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS6283",
+      "title": "Groundwater Resource Management",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS6284",
+      "title": "Impact of Climate Change on Water Resources",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS6387",
+      "title": "Plantation Crop Technology",
+      "level": 6,
+      "semester": 7,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGI6372",
+      "title": "Fisheries and Aquaculture",
+      "level": 6,
+      "semester": 7,
+      "credits": 3,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS6291",
+      "title": "Landscaping",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "AGS6292",
+      "title": "Commercial Horticulture",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    }
+  ],
+  "BISHons_Apparel": [
+    {
+      "code": "TAS3311",
+      "title": "Fibre to Yarn",
+      "level": 3,
+      "semester": 1,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ3220",
+      "title": "Mathematics for Industrial Studies",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAM3413",
+      "title": "Management Studies I",
+      "level": 3,
+      "semester": 1,
+      "credits": 4,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI3315",
+      "title": "Garment Accessories",
+      "level": 3,
+      "semester": 1,
+      "credits": 3,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI3216",
+      "title": "Pattern Construction I",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI3320",
+      "title": "Pattern Construction II TAI3216 (CR) TAI3216 (CR)",
+      "level": 3,
+      "semester": 2,
+      "credits": 3,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS3317",
+      "title": "Garment Analysis and Sewing Machinery",
+      "level": 3,
+      "semester": 2,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI3318",
+      "title": "Industrial Garment Washing and Finishing",
+      "level": 3,
+      "semester": 2,
+      "credits": 3,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAK3219",
+      "title": "Introduction to Computer Applications",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "K",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS3212",
+      "title": "Fabric Formation TAS3311 (CR) TAS3311 (CR)",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAM3314",
+      "title": "Management Studies II TAM3413 (CR) TAM3413 (CR)",
+      "level": 3,
+      "semester": 2,
+      "credits": 3,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAM4415",
+      "title": "Apparel Merchandising 8",
+      "level": 4,
+      "semester": 3,
+      "credits": 4,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS4417",
+      "title": "Knitted Garment Technology TAS3311(CA), TAS3212(CA), additional 3",
+      "level": 4,
+      "semester": 3,
+      "credits": 4,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI4416",
+      "title": "Advanced Pattern Construction TAI3216(CA), TAI3320(CA), additional 3",
+      "level": 4,
+      "semester": 3,
+      "credits": 4,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI4414",
+      "title": "Principles of Fashion Designing* 8",
+      "level": 4,
+      "semester": 3,
+      "credits": 4,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS4312",
+      "title": "Industrial Engineering and AI for Apparel",
+      "level": 4,
+      "semester": 4,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS4413",
+      "title": "Garment Manufacture TAS3317(CA), additional 5",
+      "level": 4,
+      "semester": 4,
+      "credits": 4,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ4424",
+      "title": "Statistics for Industrial Studies",
+      "level": 4,
+      "semester": 4,
+      "credits": 4,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAW4351",
+      "title": "Industrial Training I (Apparel) TAS3317(P), TAS4312(CR), additional 27",
+      "level": 4,
+      "semester": 4,
+      "credits": 3,
+      "category": "W",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5210",
+      "title": "Textile Dyeing* 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5212",
+      "title": "Quality Assurance for Textile and Clothing I 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5214",
+      "title": "Basic Weave Designs and Calculations TAS4311(CA), 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ5425",
+      "title": "Quantitative Techniques",
+      "level": 5,
+      "semester": 5,
+      "credits": 4,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI5261",
+      "title": "Current Topics in Textile and Clothing",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "LLM5261",
+      "title": "Basic Laws Relating to Engineering & Technology 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHM5262",
+      "title": "Professional Ethics* 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5319",
+      "title": "Computer-Aided Pattern Drafting* TAS5216 (CR) or TAI4416 (CA), 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5216",
+      "title": "(CR) or TAX4462(CA) or TAI4442(CA), 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5211",
+      "title": "Textile Printing and Finishing* TAS5210(CR), 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5213",
+      "title": "Quality Assurance for Textile & Clothing II TAS5212(CR), 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5215",
+      "title": "Fancy and Complex Weave Designs TAS5214(CR), 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5218",
+      "title": "Plant Utilities I 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAY6863",
+      "title": "Research Project (Apparel Production)",
+      "level": 6,
+      "semester": 7,
+      "credits": 8,
+      "category": "Y",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS6218",
+      "title": "Plant Utilities II TAS5218(CA), 45",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS6410",
+      "title": "Ergonomics 45",
+      "level": 6,
+      "semester": 7,
+      "credits": 4,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS6216",
+      "title": "Fabric Technology I 45",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI6214",
+      "title": "Foundation Garments TAS3311(P), TAS3212(P), TAI3216(P)",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAM6415",
+      "title": "Fashion Marketing 45",
+      "level": 6,
+      "semester": 8,
+      "credits": 4,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS6328",
+      "title": "Fabric Technology II TAS6216 (CR), 45",
+      "level": 6,
+      "semester": 8,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHJ5363",
+      "title": "Technology, Society, and",
+      "level": 5,
+      "semester": 5,
+      "credits": 3,
+      "category": "J",
+      "type": "Elective"
+    },
+    {
+      "code": "TAJ5322",
+      "title": "History and Traditions of Clothing 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 3,
+      "category": "J",
+      "type": "Elective"
+    },
+    {
+      "code": "MHJ5264",
+      "title": "History of Technology 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "J",
+      "type": "Elective"
+    },
+    {
+      "code": "MHJ5265",
+      "title": "Nature of Science 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "J",
+      "type": "Elective"
+    },
+    {
+      "code": "TAS6319",
+      "title": "Nonwoven Textiles",
+      "level": 6,
+      "semester": 5,
+      "credits": 3,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "TAS6211",
+      "title": "Textile Product Engineering 45",
+      "level": 6,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "TAS6224",
+      "title": "Total Quality Management 45",
+      "level": 6,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "TAS6313",
+      "title": "Technical Textiles 45",
+      "level": 6,
+      "semester": 5,
+      "credits": 3,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "TAS6229",
+      "title": "Medical Textiles 45",
+      "level": 6,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "TAS6230",
+      "title": "Sustainable Textile and Apparel",
+      "level": 6,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    }
+  ],
+  "BISHons_Textile": [
+    {
+      "code": "TAS3311",
+      "title": "Fibre to Yarn",
+      "level": 3,
+      "semester": 1,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ3220",
+      "title": "Mathematics for Industrial Studies",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAM3413",
+      "title": "Management Studies I",
+      "level": 3,
+      "semester": 1,
+      "credits": 4,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI3315",
+      "title": "Garment Accessories",
+      "level": 3,
+      "semester": 1,
+      "credits": 3,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI3216",
+      "title": "Pattern Construction I*",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI3320",
+      "title": "Pattern Construction II* TAI3216 (CR) TAI3216 (CR)",
+      "level": 3,
+      "semester": 2,
+      "credits": 3,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS3317",
+      "title": "Garment Analysis and Sewing Machinery",
+      "level": 3,
+      "semester": 2,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI3318",
+      "title": "Industrial Garment Washing and Finishing",
+      "level": 3,
+      "semester": 2,
+      "credits": 3,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAK3219",
+      "title": "Introduction to Computer Applications",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "K",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS3212",
+      "title": "Fabric Formation TAS3311 (CR) TAS3311 (CR)",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAM3314",
+      "title": "Management Studies II TAM3413 (CR) TAM3413 (CR)",
+      "level": 3,
+      "semester": 2,
+      "credits": 3,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAM4415",
+      "title": "Apparel Merchandising 8",
+      "level": 4,
+      "semester": 3,
+      "credits": 4,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS4310",
+      "title": "Yarn Manufacture 1 [TAS3310(CA)] or [TAS3311(CA) and",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS4311",
+      "title": "Woven Fabric Technology [TAS3310(CA)] or [TAS3311(CA) and",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI4414",
+      "title": "Principles of Fashion Designing 8",
+      "level": 4,
+      "semester": 3,
+      "credits": 4,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS4322",
+      "title": "Knitting Technology [TAS3310 (CA)] or [TAS3311 (CA) and TAS3212",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS4312",
+      "title": "Industrial Engineering and AI for Apparel",
+      "level": 4,
+      "semester": 4,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS4413",
+      "title": "Garment Manufacture TAS3317(CA), additional 5",
+      "level": 4,
+      "semester": 4,
+      "credits": 4,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ4424",
+      "title": "Statistics for Industrial Studies",
+      "level": 4,
+      "semester": 4,
+      "credits": 4,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAY4261",
+      "title": "+ Recent Developments in Yarn and Fabric",
+      "level": 4,
+      "semester": 4,
+      "credits": 2,
+      "category": "Y",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAW4350",
+      "title": "Industrial Training I (Overall industrial",
+      "level": 4,
+      "semester": 4,
+      "credits": 3,
+      "category": "W",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5210",
+      "title": "Textile Dyeing 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5212",
+      "title": "Quality Assurance for Textile and Clothing I 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5214",
+      "title": "Basic Weave Designs and Calculations TAS4311(CA), 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ5425",
+      "title": "Quantitative Techniques",
+      "level": 5,
+      "semester": 5,
+      "credits": 4,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI5261",
+      "title": "Current Topics in Textile and Clothing",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "LLM5261",
+      "title": "Basic Laws Relating to Engineering &",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAW5350",
+      "title": "++ Industrial Training II (Textile) [TAS4310 (CA) or TAS4311 (CA) or TAS4322 (CA) or",
+      "level": 5,
+      "semester": 5,
+      "credits": 3,
+      "category": "W",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAX4539",
+      "title": "(CA)], TAW4350 (CR), 24",
+      "level": 4,
+      "semester": 5,
+      "credits": 5,
+      "category": "X",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHM5262",
+      "title": "Professional Ethics× 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5211",
+      "title": "Textile Printing and Finishing TAS5210(CR), 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5213",
+      "title": "Quality Assurance for Textile & Clothing II TAS5212(CR), 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5215",
+      "title": "Fancy and Complex Weave Designs TAS4312(CA), TAS5214(CR), 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5218",
+      "title": "Plant Utilities I 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAY6862",
+      "title": "Research Project (Textile manufacture)",
+      "level": 6,
+      "semester": 7,
+      "credits": 8,
+      "category": "Y",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS6218",
+      "title": "Plant Utilities II TAS5218(CA), additional 45",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS6410",
+      "title": "Ergonomics 45",
+      "level": 6,
+      "semester": 7,
+      "credits": 4,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS6211",
+      "title": "Textile Product Engineering 45",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS6313",
+      "title": "Technical Textiles* 45",
+      "level": 6,
+      "semester": 8,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS6312",
+      "title": "Advanced Colouration* [TAS5211 (P)] or [TAS5210 (P) and TAS5211(CA)]",
+      "level": 6,
+      "semester": 8,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHJ5363",
+      "title": "Technology, Society, and Environment 24",
+      "level": 5,
+      "semester": 8,
+      "credits": 3,
+      "category": "J",
+      "type": "Elective"
+    },
+    {
+      "code": "TAJ5322",
+      "title": "History and Traditions of Clothing",
+      "level": 5,
+      "semester": 8,
+      "credits": 3,
+      "category": "J",
+      "type": "Elective"
+    },
+    {
+      "code": "MHJ5264",
+      "title": "History of Technology 24",
+      "level": 5,
+      "semester": 8,
+      "credits": 2,
+      "category": "J",
+      "type": "Elective"
+    },
+    {
+      "code": "MHJ5265",
+      "title": "Nature of Science 24",
+      "level": 5,
+      "semester": 8,
+      "credits": 2,
+      "category": "J",
+      "type": "Elective"
+    },
+    {
+      "code": "TAS6319",
+      "title": "Nonwoven Textiles",
+      "level": 6,
+      "semester": 8,
+      "credits": 3,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "TAS6322",
+      "title": "Yarn Manufacture II TAS4311(P), additional 42",
+      "level": 6,
+      "semester": 8,
+      "credits": 3,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "TAS6325",
+      "title": "Advanced Woven Fabric Technology TAS4311(P), additional 42",
+      "level": 6,
+      "semester": 8,
+      "credits": 3,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "TAS6224",
+      "title": "Total Quality Management 45",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "TAS6229",
+      "title": "Medical Textiles 45",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "TAS6230",
+      "title": "Sustainable Textile and Apparel",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "TAS6231",
+      "title": "Advanced Knitting Technology TAS4322(P), additional 42",
+      "level": 6,
+      "semester": 8,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    }
+  ],
+  "BISHons_Fashion": [
+    {
+      "code": "TAS3311",
+      "title": "Fibre to Yarn",
+      "level": 3,
+      "semester": 1,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ3220",
+      "title": "Mathematics for Industrial Studies",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAM3413",
+      "title": "Management Studies I",
+      "level": 3,
+      "semester": 1,
+      "credits": 4,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI3315",
+      "title": "Garment Accessories",
+      "level": 3,
+      "semester": 1,
+      "credits": 3,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI3321",
+      "title": "Fashion Illustration I",
+      "level": 3,
+      "semester": 1,
+      "credits": 3,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI3216",
+      "title": "Pattern Construction I",
+      "level": 3,
+      "semester": 1,
+      "credits": 2,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI3320",
+      "title": "Pattern Construction II TAI3216 (CR) TAI3216 (CR)",
+      "level": 3,
+      "semester": 2,
+      "credits": 3,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS3317",
+      "title": "Garment Analysis and Sewing Machinery",
+      "level": 3,
+      "semester": 2,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAK3219",
+      "title": "Introduction to Computer Applications",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "K",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS3212",
+      "title": "Fabric Formation TAS3311 (CR) TAS3311 (CR)",
+      "level": 3,
+      "semester": 2,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAM3314",
+      "title": "Management Studies II TAM3413 (CR) TAM3413 (CR)",
+      "level": 3,
+      "semester": 2,
+      "credits": 3,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI4320",
+      "title": "Design through draping TAI4416 (CR), 8",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI4318",
+      "title": "Concept of Fashion Design 8",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI4416",
+      "title": "Advanced Pattern Construction TAI3216(CA), TAI3320(CA), additional 3",
+      "level": 4,
+      "semester": 3,
+      "credits": 4,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI4319",
+      "title": "Fashion Illustration II TAI3321(CA), additional 5",
+      "level": 4,
+      "semester": 3,
+      "credits": 3,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI4312",
+      "title": "Industrial Engineering and AI for",
+      "level": 4,
+      "semester": 4,
+      "credits": 3,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS4413",
+      "title": "Garment Manufacture TAS3317(CA), additional 5",
+      "level": 4,
+      "semester": 4,
+      "credits": 4,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ4424",
+      "title": "Statistics for Industrial Studies",
+      "level": 4,
+      "semester": 4,
+      "credits": 4,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI4321",
+      "title": "Process of Fashion Designing TAI4318(CR), 8",
+      "level": 4,
+      "semester": 4,
+      "credits": 3,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAW4351",
+      "title": "Industrial Training I (Apparel) TAS3317(P), TAS4312 (CR), additional",
+      "level": 4,
+      "semester": 4,
+      "credits": 3,
+      "category": "W",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5212",
+      "title": "Quality Assurance for Textile and Clothing I 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAY5562",
+      "title": "Wearable Art and Experimental Fashion",
+      "level": 5,
+      "semester": 5,
+      "credits": 5,
+      "category": "Y",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHZ5425",
+      "title": "Quantitative Techniques",
+      "level": 5,
+      "semester": 5,
+      "credits": 4,
+      "category": "Z",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI5220",
+      "title": "Computer-Aided Fashion Illustration* TAI4319 (CA), 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI4373",
+      "title": "(CA), 24",
+      "level": 4,
+      "semester": 5,
+      "credits": 3,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "LLM5261",
+      "title": "Basic Laws Relating to Engineering &",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAJ5322",
+      "title": "History and Traditions of Clothing* 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 3,
+      "category": "J",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAW5352",
+      "title": "++ Industrial Training II (Fashion Design and Product",
+      "level": 5,
+      "semester": 5,
+      "credits": 3,
+      "category": "W",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI5421",
+      "title": "Fashion Product Design and Development TAI4319(P), 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 4,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "MHM5262",
+      "title": "Professional Ethics* 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5319",
+      "title": "Computer-Aided Pattern Drafting* TAS5216 (CR) or TAI4416 (CA), 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 3,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5216",
+      "title": "(CR) or TAX4462(CA) or TAI4442(CA), 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5213",
+      "title": "Quality Assurance for Textile & Clothing II TAS5212(CR), 24",
+      "level": 5,
+      "semester": 6,
+      "credits": 2,
+      "category": "S",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI6517",
+      "title": "Visual Presentation and Exhibition Design 45",
+      "level": 6,
+      "semester": 7,
+      "credits": 5,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAY6864",
+      "title": "Development of Fashion Collection",
+      "level": 6,
+      "semester": 7,
+      "credits": 8,
+      "category": "Y",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI6214",
+      "title": "Foundation Garments TAS3311(P), TAS3212(P), TAI3216(P)",
+      "level": 6,
+      "semester": 7,
+      "credits": 2,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAI6421",
+      "title": "Fashion Show Production TAI4321(P), additional 42",
+      "level": 6,
+      "semester": 7,
+      "credits": 4,
+      "category": "I",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAM6415",
+      "title": "Fashion Marketing 45",
+      "level": 6,
+      "semester": 8,
+      "credits": 4,
+      "category": "M",
+      "type": "Compulsory"
+    },
+    {
+      "code": "TAS5210",
+      "title": "Textile Dyeing 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "MHJ5363",
+      "title": "Technology, Society, and",
+      "level": 5,
+      "semester": 5,
+      "credits": 3,
+      "category": "J",
+      "type": "Elective"
+    },
+    {
+      "code": "MHJ5264",
+      "title": "History of Technology 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "J",
+      "type": "Elective"
+    },
+    {
+      "code": "MHJ5265",
+      "title": "Nature of Science 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "J",
+      "type": "Elective"
+    },
+    {
+      "code": "TAS5211",
+      "title": "Textile Printing and Finishing TAS5210(CR), 24",
+      "level": 5,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "TAS6410",
+      "title": "Ergonomics 45",
+      "level": 6,
+      "semester": 5,
+      "credits": 4,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "TAS6216",
+      "title": "Fabric Technology I 45",
+      "level": 6,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "TAS6211",
+      "title": "Textile Product Engineering 45",
+      "level": 6,
+      "semester": 5,
+      "credits": 2,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "TAS6312",
+      "title": "Advanced Colouration",
+      "level": 6,
+      "semester": 5,
+      "credits": 3,
+      "category": "S",
+      "type": "Elective"
+    },
+    {
+      "code": "TAS6313",
+      "title": "Technical Textiles 45",
+      "level": 6,
+      "semester": 5,
+      "credits": 3,
+      "category": "S",
+      "type": "Elective"
+    }
+  ]
+};
 
-      // LEVEL 4
-      { code: 'AGM4307', title: 'Economics and Marketing for Engineers', level: 4, semester: 3, credits: 3, category: 'M', type: 'Compulsory' },
-      { code: 'EES4317', title: 'Object-Oriented Design and Programming', level: 4, semester: 3, credits: 3, category: 'S', type: 'Compulsory' },
-      { code: 'EES4320', title: 'Introduction to AI and Techniques', level: 4, semester: 3, credits: 3, category: 'S', type: 'Compulsory' },
-      { code: 'EES4331', title: 'Circuit Theory and Design', level: 4, semester: 3, credits: 3, category: 'S', type: 'Compulsory' },
-      { code: 'EES4436', title: 'Microprocessors and Interfacing', level: 4, semester: 3, credits: 4, category: 'S', type: 'Compulsory' },
-      { code: 'MHZ4313', title: 'Calculus II', level: 4, semester: 3, credits: 3, category: 'Z', type: 'Compulsory' },
-      { code: 'MHZ4214', title: 'Probability and Statistics', level: 4, semester: 3, credits: 2, category: 'Z', type: 'Compulsory' },
-      
-      { code: 'CVM4401', title: 'Accounting for Engineers', level: 4, semester: 4, credits: 4, category: 'M', type: 'Compulsory' },
-      { code: 'EES4230', title: 'Analog Electronics', level: 4, semester: 4, credits: 2, category: 'S', type: 'Compulsory' },
-      { code: 'EES4235', title: 'Data Structures and Algorithms', level: 4, semester: 4, credits: 2, category: 'S', type: 'Compulsory' },
-      { code: 'EES5317', title: 'Software Engineering', level: 5, semester: 4, credits: 3, category: 'S', type: 'Compulsory' },
-      { code: 'MHZ4215', title: 'Numerical Methods', level: 4, semester: 4, credits: 2, category: 'Z', type: 'Compulsory' },
-      { code: 'MHZ4216', title: 'Fourier Analysis', level: 4, semester: 4, credits: 2, category: 'Z', type: 'Compulsory' },
-
-      // LEVEL 5
-      { code: 'EES5219', title: 'Information Security', level: 5, semester: 5, credits: 2, category: 'S', type: 'Compulsory' },
-      { code: 'EES5325', title: 'Operating Systems', level: 5, semester: 5, credits: 3, category: 'S', type: 'Compulsory' },
-      { code: 'EES5326', title: 'Digital Electronic Design', level: 5, semester: 5, credits: 3, category: 'S', type: 'Compulsory' },
-      { code: 'EES5235', title: 'Advanced Data Structures and Algorithms', level: 5, semester: 5, credits: 2, category: 'S', type: 'Compulsory' },
-      { code: 'EES5239', title: 'Signals and Systems', level: 5, semester: 5, credits: 2, category: 'S', type: 'Compulsory' },
-      { code: 'LLM5231', title: 'Basic Laws Relating to Engineering and Technology', level: 5, semester: 5, credits: 2, category: 'M', type: 'Compulsory' },
-      { code: 'MHZ5318', title: 'Discrete Mathematics', level: 5, semester: 5, credits: 3, category: 'Z', type: 'Compulsory' },
-      
-      { code: 'EES5334', title: 'Data Communications and Networking', level: 5, semester: 6, credits: 3, category: 'S', type: 'Compulsory' },
-      { code: 'EES5236', title: 'Computer Architecture and Organization I', level: 5, semester: 6, credits: 2, category: 'S', type: 'Compulsory' },
-      { code: 'EES6191', title: 'Research Methodology and Project Identification (Computer)', level: 6, semester: 6, credits: 1, category: 'S', type: 'Compulsory' },
-      { code: 'EEW5691', title: 'Industrial Training (Computer Systems)', level: 5, semester: 6, credits: 6, category: 'W', type: 'Compulsory' },
-      { code: 'MHM5232', title: 'Professional Ethics', level: 5, semester: 6, credits: 2, category: 'M', type: 'Compulsory' },
-      { code: 'MHJ5234', title: 'History of Technology', level: 5, semester: 6, credits: 2, category: 'J', type: 'Elective' },
-      { code: 'MHJ5235', title: 'Nature of Science', level: 5, semester: 6, credits: 2, category: 'J', type: 'Elective' },
-
-      // LEVEL 6
-      { code: 'DMM6301', title: 'Management for Engineers I', level: 6, semester: 7, credits: 3, category: 'M', type: 'Compulsory' },
-      { code: 'EES6335', title: 'Compiler Design', level: 6, semester: 7, credits: 3, category: 'S', type: 'Compulsory' },
-      { code: 'EES6236', title: 'Computer Architecture and Organisation II', level: 6, semester: 7, credits: 2, category: 'S', type: 'Compulsory' },
-      { code: 'EEY6401', title: 'System Design in Groups', level: 6, semester: 7, credits: 4, category: 'Y', type: 'Compulsory' },
-      { code: 'EEY6881', title: 'Engineering Research Project (Computer Engineering)', level: 6, semester: 7, credits: 8, category: 'Y', type: 'Compulsory' },
-      { code: 'MHJ5333', title: 'Technology, Society, and Environment', level: 5, semester: 7, credits: 3, category: 'J', type: 'Compulsory' },
-      
-      { code: 'DMM6302', title: 'Management for Engineers II', level: 6, semester: 8, credits: 3, category: 'M', type: 'Compulsory' },
-      { code: 'EES6121', title: 'Emerging Technologies', level: 6, semester: 8, credits: 1, category: 'S', type: 'Compulsory' },
-      { code: 'EES6227', title: 'Embedded Systems Design', level: 6, semester: 8, credits: 2, category: 'S', type: 'Compulsory' },
-      
-      // Focus Area Electives
-      { code: 'EES5318', title: 'Data Science', level: 5, semester: 8, credits: 3, category: 'S', type: 'Elective' },
-      { code: 'EES5229', title: 'Neural Network and Fuzzy Logic Applications', level: 5, semester: 8, credits: 2, category: 'S', type: 'Elective' },
-      { code: 'EES5230', title: 'Advanced Electronics', level: 5, semester: 8, credits: 2, category: 'S', type: 'Elective' },
-      { code: 'EES6209', title: 'Cloud Computing', level: 6, semester: 8, credits: 2, category: 'S', type: 'Elective' },
-      { code: 'EES6317', title: 'Data Mining', level: 6, semester: 8, credits: 3, category: 'S', type: 'Elective' },
-      { code: 'EES6218', title: 'Natural Language Processing', level: 6, semester: 8, credits: 2, category: 'S', type: 'Elective' },
-      { code: 'EES6219', title: 'Creative Design', level: 6, semester: 8, credits: 2, category: 'S', type: 'Elective' },
-      { code: 'EES6320', title: 'Intelligent Systems and Agent Technology', level: 6, semester: 8, credits: 3, category: 'S', type: 'Elective' },
-      { code: 'EES6226', title: 'Advanced Computer Architecture', level: 6, semester: 8, credits: 2, category: 'S', type: 'Elective' },
-      { code: 'EES6228', title: 'Image Processing', level: 6, semester: 8, credits: 2, category: 'S', type: 'Elective' },
-      { code: 'EES6329', title: 'Processor Design', level: 6, semester: 8, credits: 3, category: 'S', type: 'Elective' },
-    ];
+    let COURSES_DATA = [];
 
     // Old Course to New Course Mappings for Transcript Import
     const CONVERSIONS_MAP = {
@@ -1847,6 +8169,70 @@
     let studentGrades = {};
     let customCourses = [];
     let virtualCredits = [];
+    
+    // Programme & Specialisation selection
+    let selectedProgramme = 'BScHonsEng';
+    let selectedSpecialisation = 'Computer';
+
+    const SPECIALISATIONS_MAP = {
+      'BScHonsEng': [
+        { value: 'Agricultural', label: 'Agricultural Engineering' },
+        { value: 'Civil', label: 'Civil Engineering' },
+        { value: 'Computer', label: 'Computer Engineering' },
+        { value: 'Electrical', label: 'Electrical Engineering' },
+        { value: 'Electronics', label: 'Electronics & Comm.' },
+        { value: 'Mechanical', label: 'Mechanical Engineering' },
+        { value: 'Mechatronics', label: 'Mechatronics Engineering' },
+        { value: 'Textile', label: 'Textile & Clothing' }
+      ],
+      'BISHons': [
+        { value: 'Agriculture', label: 'Agriculture' },
+        { value: 'Apparel', label: 'Apparel Prod. & Mgmt' },
+        { value: 'Textile', label: 'Textile Manufacture' },
+        { value: 'Fashion', label: 'Fashion Design & Dev.' }
+      ]
+    };
+
+    function populateSpecialisations() {
+      const select = document.getElementById('select-specialisation');
+      if (!select) return;
+      select.innerHTML = '';
+      const list = SPECIALISATIONS_MAP[selectedProgramme] || [];
+      list.forEach(item => {
+        const opt = document.createElement('option');
+        opt.value = item.value;
+        opt.innerText = item.label;
+        select.appendChild(opt);
+      });
+    }
+
+    function loadActiveCurriculum() {
+      const key = `${selectedProgramme}_${selectedSpecialisation}`;
+      COURSES_DATA = SYLLABI_DATABASE[key] || [];
+    }
+
+    function changeProgramme(prog) {
+      selectedProgramme = prog;
+      populateSpecialisations();
+      // Select the first specialisation by default
+      const list = SPECIALISATIONS_MAP[selectedProgramme] || [];
+      if (list.length > 0) {
+        selectedSpecialisation = list[0].value;
+        document.getElementById('select-specialisation').value = selectedSpecialisation;
+      }
+      saveGradesAndCustom();
+      loadActiveCurriculum();
+      renderSyllabusGrid();
+      recalculateAll();
+    }
+
+    function changeSpecialisation(spec) {
+      selectedSpecialisation = spec;
+      saveGradesAndCustom();
+      loadActiveCurriculum();
+      renderSyllabusGrid();
+      recalculateAll();
+    }
 
     // Initialize application on load
     window.addEventListener('DOMContentLoaded', () => {
@@ -1867,6 +8253,18 @@
       const savedCustom = localStorage.getItem('ce_custom_courses');
       const savedVirtual = localStorage.getItem('ce_virtual_credits');
       
+      selectedProgramme = localStorage.getItem('ce_selected_programme') || 'BScHonsEng';
+      selectedSpecialisation = localStorage.getItem('ce_selected_specialisation') || 'Computer';
+      
+      // Update DOM selectors
+      const progSelect = document.getElementById('select-programme');
+      const specSelect = document.getElementById('select-specialisation');
+      if (progSelect) progSelect.value = selectedProgramme;
+      populateSpecialisations();
+      if (specSelect) specSelect.value = selectedSpecialisation;
+
+      loadActiveCurriculum();
+
       if (savedGrades) {
         try {
           studentGrades = JSON.parse(savedGrades);
@@ -1909,6 +8307,8 @@
       localStorage.setItem('ce_student_grades', JSON.stringify(studentGrades));
       localStorage.setItem('ce_custom_courses', JSON.stringify(customCourses));
       localStorage.setItem('ce_virtual_credits', JSON.stringify(virtualCredits));
+      localStorage.setItem('ce_selected_programme', selectedProgramme);
+      localStorage.setItem('ce_selected_specialisation', selectedSpecialisation);
     }
 
     // Theme toggle
@@ -2390,14 +8790,16 @@
       
       const virtualCreditsSum = virtualCredits.reduce((sum, vc) => sum + vc.credits, 0);
       const totalCreditsCompleted = completedCredits + virtualCreditsSum;
-      document.getElementById('completed-credits-text').innerText = `${totalCreditsCompleted} / 140`;
+      
+      const totalTarget = (selectedProgramme === 'BScHonsEng') ? 140 : 125;
+      document.getElementById('completed-credits-text').innerText = `${totalCreditsCompleted} / ${totalTarget}`;
       
       // Update Dashboard Completed Credits Progress Bar
       const totalCreditsBar = document.getElementById('completed-credits-bar');
       if (totalCreditsBar) {
-        const totalProgressPercent = Math.min(100, Math.round((totalCreditsCompleted / 140) * 100));
+        const totalProgressPercent = Math.min(100, Math.round((totalCreditsCompleted / totalTarget) * 100));
         totalCreditsBar.style.width = `${totalProgressPercent}%`;
-        if (totalCreditsCompleted >= 140) {
+        if (totalCreditsCompleted >= totalTarget) {
           totalCreditsBar.style.background = 'var(--color-success)';
         } else {
           totalCreditsBar.style.background = 'var(--color-primary)';
@@ -2412,8 +8814,22 @@
       
       document.getElementById('current-gpa-text').innerText = `${currentGPA.toFixed(2)} / 4.00`;
 
-      // 4. Graduation GPA calculation (80-Credit Priority Algorithm)
-      const gradGPADetails = calculateGraduationGPA(courses);
+      // Update brand title dynamically
+      const specLabel = (SPECIALISATIONS_MAP[selectedProgramme].find(item => item.value === selectedSpecialisation) || {}).label || selectedSpecialisation;
+      const brandTitle = document.getElementById('brand-title');
+      if (brandTitle) brandTitle.innerText = specLabel;
+      const brandSubtitle = document.getElementById('brand-subtitle');
+      if (brandSubtitle) brandSubtitle.innerText = (selectedProgramme === 'BScHonsEng') ? "RC'25 Honours Engineering" : "RC'25 Industrial Studies";
+
+      // 4. Graduation GPA calculation (80-Credit or 72-Credit Priority Algorithm)
+      const limit = (selectedProgramme === 'BScHonsEng') ? 80 : 72;
+      const gradGPADetails = calculateGraduationGPA(courses, limit);
+
+      // Update Breakdown Limit Titles
+      const limitTitle = document.getElementById('breakdown-limit-title');
+      if (limitTitle) limitTitle.innerText = limit;
+      const limitDesc = document.getElementById('breakdown-limit-desc');
+      if (limitDesc) limitDesc.innerText = (limit === 80) ? 'Eighty (80)' : 'Seventy-two (72)';
       
       // Update UI numbers
       document.getElementById('grad-gpa-val').innerText = gradGPADetails.gpa.toFixed(2);
@@ -2443,8 +8859,8 @@
       runCreditAudit(courses, completedCredits + virtualCreditsSum);
     }
 
-    // 80-Credit Priority GPA calculation algorithm
-    function calculateGraduationGPA(courses) {
+    // 80-Credit or 72-Credit Priority GPA calculation algorithm
+    function calculateGraduationGPA(courses, limit = 80) {
       // Filter level 4, 5, 6 GPA courses with actual grades
       const eligible = courses.filter(c => {
         if (c.level < 4 || c.level > 6) return false;
@@ -2486,10 +8902,10 @@
 
       for (let i = 0; i < combined.length; i++) {
         const course = combined[i];
-        if (selectedCredits >= 80) break;
+        if (selectedCredits >= limit) break;
 
-        const remainingTo80 = 80 - selectedCredits;
-        if (course.credits <= remainingTo80) {
+        const remainingToLimit = limit - selectedCredits;
+        if (course.credits <= remainingToLimit) {
           selectedCredits += course.credits;
           totalGPVProducts += course.credits * course.gpv;
           selectedCourses.push({
@@ -2499,11 +8915,11 @@
           });
         } else {
           // Part credit boundary boundary
-          selectedCredits += remainingTo80;
-          totalGPVProducts += remainingTo80 * course.gpv;
+          selectedCredits += remainingToLimit;
+          totalGPVProducts += remainingToLimit * course.gpv;
           selectedCourses.push({
             ...course,
-            usedCredits: remainingTo80,
+            usedCredits: remainingToLimit,
             isPartCredit: true
           });
         }
