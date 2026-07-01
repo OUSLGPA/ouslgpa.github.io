@@ -1785,99 +1785,10 @@
       recalculateAll();
     });
 
-    // Default results from Excel sheet (GPA calculation.xlsx) if no user data exists
-    const EXCEL_DEFAULT_GRADES = {
-      "EES4317": "B",
-      "EES3330": "B+",
-      "EES3236": "C+",
-      "EEB3210": "B+",
-      "EEK3217": "B-",
-      "EEK3218": "B-",
-      "DMS3203": "B",
-      "DMS3205": "C",
-      "DMB3301": "B+",
-      "MHZ3310": "C",
-      "MHZ3311": "B+",
-      "AGM3203": "C",
-      "LLM5231": "C",
-      "EES4333": "B-",
-      "EES4331": "A",
-      "EES4222": "B-",
-      "EES4230": "A-",
-      "EES4436": "B-",
-      "EEX4530": "B+",
-      "EEY4280": "B",
-      "MHZ4313": "A",
-      "EEW5691": "C",
-      "AGM4307": "B+",
-      "DMX5403": "A-",
-      "EES6230": "A+",
-      "EES5333": "B+",
-      "EES5326": "A",
-      "EES5239": "A",
-      "EES5334": "B",
-      "EEX5563": "A-",
-      "EEX5453": "A+",
-      "CVM4401": "B+",
-      "MHJ5235": "C",
-      "EEX6183": "B",
-      "EES6215": "C+",
-      "EES6333": "B",
-      "EES6211": "B",
-      "EES5230": "A-",
-      "DMM6301": "B+",
-      "EES6213": "A-",
-      "EEY6403": "A",
-      "EEY6883": "B"
-    };
+    // Default results if no user data exists (Empty by default for a clean slate)
+    const EXCEL_DEFAULT_GRADES = {};
 
-    const EXCEL_DEFAULT_CUSTOM = [
-      {
-        "code": "EEX4530",
-        "title": "EEX4530 (Imported Course)",
-        "credits": 5,
-        "level": 4,
-        "semester": 3,
-        "category": "S",
-        "type": "Elective"
-      },
-      {
-        "code": "DMX5403",
-        "title": "DMX5403 (Imported Course)",
-        "credits": 4,
-        "level": 5,
-        "semester": 6,
-        "category": "S",
-        "type": "Elective"
-      },
-      {
-        "code": "EEX5563",
-        "title": "EEX5563 (Imported Course)",
-        "credits": 5,
-        "level": 5,
-        "semester": 5,
-        "category": "S",
-        "type": "Elective"
-      },
-      {
-        "code": "EEX5453",
-        "title": "EEX5453 (Imported Course)",
-        "credits": 4,
-        "level": 5,
-        "semester": 6,
-        "category": "S",
-        "type": "Elective"
-      },
-      {
-        "code": "EEX6183",
-        "title": "EEX6183 (Imported Course)",
-        "credits": 1,
-        "level": 6,
-        "semester": 7,
-        "category": "S",
-        "type": "Elective"
-      }
-    ];
+    const EXCEL_DEFAULT_CUSTOM = [];
 
     // Load data from LocalStorage
     function loadSavedData() {
